@@ -88,7 +88,7 @@
     justify-content: center;
     border: 1px solid var(--theramax-green);
     border-radius: 8px;
-    background: var(--theramax-pale-green);
+    background: var(--theramax-orange);
     color: var(--theramax-navy);
     text-decoration: none;
 }
@@ -212,8 +212,8 @@
 {
     position: absolute;
     z-index: 10;
-    top: calc(100% + 26px);
-    left: 0;
+    top: calc(100% + 10px);
+    left: 50%;
     width: 300px;
     height: auto;
     padding: 0;
@@ -225,7 +225,7 @@
     background: #ffffff;
     visibility: hidden;
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translate(-50%, -8px);
     transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
 }
 .services-nav[open] .services-dropdown,
@@ -234,7 +234,7 @@
 {
     visibility: visible;
     opacity: 1;
-    /* transform: translate(-50%, 0); */
+    transform: translate(-50%, 0);
 }
 .services-nav[open] .service-items,
 .services-nav:hover .service-items
@@ -558,8 +558,8 @@
     }
     .mobile-call-button
     {
-        border-color: var(--theramax-navy);
-        background: var(--theramax-navy);
+        border-color: #f7941d;
+        background: #f7941d;
         color: #ffffff;
         box-shadow: 0 5px 12px rgba(36, 36, 95, 0.18);
     }

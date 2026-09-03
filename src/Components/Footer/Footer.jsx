@@ -15,8 +15,8 @@ export default function Footer() {
               <img className='footer-logo' src={logo} alt='Theramax Physical Therapy' />
               <p className='footer-tagline'>Expert physical therapy for stronger movement, less pain, and a more active life.</p>
               <div className='footer-socials' aria-label='Social media links'>
-                <a className='footer-social-link' href='#facebook' aria-label='Facebook'>{facebookIcon}</a>
-                <a className='footer-social-link' href='#instagram' aria-label='Instagram'>{instagramIcon}</a>
+                <a className='footer-social-link' href='https://www.facebook.com/theramaxrehabs/' aria-label='Facebook'>{facebookIcon}</a>
+                <a className='footer-social-link' href='https://www.instagram.com/theramaxrehabs/' aria-label='Instagram'>{instagramIcon}</a>
               </div>
             </section>
             <section className='footer-column'>

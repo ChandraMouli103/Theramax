@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import './Contact.css'
-
+import image1 from '../../assets/contact1.jpg'
 const locations = [
   {
     id: 'east',
     city: 'East Frisco, TX',
     label: 'East Frisco Location',
-    address: 'Custer Oaks 7101 Custer Rd St # 840 Frisco TX 75035',
+    address: ' Oaks 7101 Custer Rd St # 840 Frisco TX 75035',
     phone: '(469) 665-6237',
     mapQuery: '7101 Custer Rd, Frisco, TX 75035',
   },
@@ -737,7 +737,7 @@ export default function Contact() {
           <div className='appointment-visual-panel'>
 
             <img
-              src='/src/assets/contact1.jpg'
+              src={image1}
               alt='Therapy consultation'
             />
 

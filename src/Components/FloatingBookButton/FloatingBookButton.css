@@ -2,7 +2,7 @@
 .floating-book-btn {
   display: none;
   position: fixed;
-  bottom: 20px;
+  bottom: 120px;
   right: 20px;
   z-index: 9;
   width: auto;
@@ -59,7 +59,7 @@
     height: auto;
     padding: 10px 15px;
     border-radius: 12px;
-    bottom: 45px;
+    bottom: 120px;
     right: 15px;
   }
 

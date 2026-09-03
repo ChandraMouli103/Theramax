@@ -1,0 +1,73 @@
+/* Floating Book Button - Mobile Only */
+.floating-book-btn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9;
+  width: auto;
+  height: auto;
+  padding: 10px 15px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7a8be1 0%, #16b378 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(30, 157, 117, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  font-weight: 600;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.floating-book-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(30, 157, 117, 0.4);
+}
+
+.floating-book-btn:active {
+  transform: scale(0.95);
+}
+
+.floating-btn-icon {
+  font-size: 24px;
+  display: block;
+}
+
+.floating-btn-text {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Show only on mobile devices */
+@media (max-width: 768px) {
+  .floating-book-btn {
+    display: flex;
+  }
+}
+
+/* Adjust for very small screens */
+@media (max-width: 480px) {
+  .floating-book-btn {
+     width: auto;
+    height: auto;
+    padding: 10px 15px;
+    border-radius: 12px;
+    bottom: 45px;
+    right: 15px;
+  }
+
+  .floating-btn-icon {
+    font-size: 22px;
+  }
+
+  .floating-btn-text {
+    font-size: 10px;
+  }
+}

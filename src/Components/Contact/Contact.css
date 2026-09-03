@@ -1,0 +1,1130 @@
+.contact-page {
+  width: 100%;
+  min-height: 100%;
+  background: linear-gradient(180deg, #f7fbff 0%, #ecf7f3 100%);
+  color: #1f2c46;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeInPage 0.7s ease-out;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-page-header {
+  background: linear-gradient(180deg, #7cc25f 100%);
+  border-bottom: 1px solid #dfeae8;
+  box-shadow: inset 0 -1px 0 rgba(24, 96, 78, 0.06);
+  animation: slideUp 0.7s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-page-header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 52px 24px 30px;
+  text-align: center;
+}
+
+.header-badge {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #ededec1a;
+  color: #0a3f14;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.contact-page-header-inner h1 {
+  margin: 0;
+  color: #1b3556;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: 1.08;
+  font-weight: 800;
+}
+
+.contact-page-header-inner p {
+  max-width: 700px;
+  margin: 16px auto 0;
+  color: #dcddde;
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.contact-locations-wrapper {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 24px 20px;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.contact-header .eyebrow {
+  margin: 0 0 10px;
+  color: #1f7bb5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.contact-header h2 {
+  margin: 0;
+  font-size: clamp(2.4rem, 3vw, 4rem);
+  line-height: 1.15;
+  color: #1f2f4f;
+  font-weight: 800;
+}
+
+.contact-header .subtitle {
+  margin: 14px auto 0;
+  max-width: 700px;
+  color: #4f5c70;
+  font-size: 1rem;
+}
+
+.location-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 18px;
+}
+
+.location-grid .location-card {
+  flex: 1 1 calc(50% - 11px);
+  min-width: 280px;
+}
+
+.location-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 22px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.86);
+  border-left: 5.5px solid #f7941d;
+  /* border-top: 5.5px solid #f7941d; */
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(39, 86, 131, 0.08);
+  padding: 22px;
+  min-height: 165px;
+  animation: cardFloat 0.8s ease-out both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.location-card:nth-child(2) {
+  border-left-color: #f7941d;
+}
+
+.location-card:nth-child(1) {
+  border-left-color: #1e9d75;
+}
+
+.location-card-copy {
+  min-width: 0;
+}
+
+.location-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 24px rgba(36, 92, 136, 0.12);
+  border-color: #b7d9ef;
+}
+
+.location-card:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+@keyframes cardFloat {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.marker-badge {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  margin-bottom: 18px;
+  background: #d9f0ff;
+  color: #0d6cb8;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.marker-badge svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.location-city {
+  margin: 0 0 6px;
+  color: #0d6cb8;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.location-name {
+  margin: 0 0 12px;
+  color: #112b4d;
+  font-size: 1.45rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.location-address,
+.location-phone {
+  margin: 0;
+  color: #49687f;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.location-address {
+  min-height: 52px;
+  margin-bottom: 10px;
+  font-style: normal;
+}
+
+.location-phone {
+  color: #0f5baf;
+  font-weight: 800;
+}
+
+.location-map-cont {
+  max-width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border: 1px solid rgba(17, 42, 76, 0.12);
+  border-radius: 10px;
+  background: #d9e6ea;
+}
+
+.location-map-cont iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+.support-phone-link
+{
+  text-decoration: none;
+  color:#ffffff;
+}
+
+.support-phone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.support-strip {
+  display: flex;
+  flex-wrap: wrap;
+  background: linear-gradient(90deg, #1e9d75 0%, #1a7ec3 100%);
+  border-radius: 20px;
+  margin-top: 22px;
+  padding: 18px 24px;
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(17, 103, 89, 0.18);
+  animation: fadeInUp 0.8s ease-out 0.15s both;
+  gap: 12px;
+}
+
+.support-strip .support-item {
+  flex: 1 1 calc(50% - 6px);
+  min-width: 200px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.support-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 6px 12px;
+}
+
+.support-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.support-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.support-text span {
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.support-text strong {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.support-email-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.support-email-list a {
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.support-email-list a:hover,
+.support-email-list a:focus-visible {
+  text-decoration: underline;
+}
+
+.appointment-wrapper {
+  /* max-width: 1440px; */
+  width: 100%;
+  padding: 24px 0px;
+}
+
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+  background: linear-gradient(90deg, #1e9d75 0%, #1a7ec3 100%);
+}
+
+.section-heading .eyebrow {
+  margin: 0 0 8px;
+  color: #f39c35;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.section-heading .eyebrow.dark {
+  color: #f59e0b;
+  background-color: #e6e1bd1a;
+  padding: 4px 12px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(2.2rem, 3vw, 3.1rem);
+  line-height: 1.2;
+  color: #213d66;
+}
+
+.section-heading p {
+  margin: 14px auto 0;
+  max-width: 800px;
+  color: #e8ecf1;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.appointment-box {
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  background: rgba(236, 244, 250, 0.95);
+  border: 1px solid #dfeaf0;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 12px 28px rgba(20, 60, 96, 0.06);
+  animation: fadeInUp 0.9s ease-out 0.2s both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.appointment-box .appointment-visual-panel {
+      max-width: 420px;
+    width: 100%;
+    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;justify-content: center;
+}
+
+.appointment-box .appointment-form-panel,
+.appointment-box .contact-info-panel {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  width: 100%;
+  height: auto;
+}
+
+.appointment-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 32px rgba(20, 60, 96, 0.10);
+}
+
+.appointment-visual-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  height: 100%;
+  background: linear-gradient(180deg, #d8eff5 0%, #b8dfe7 100%);
+  border: 1px solid #dfeaf3;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.appointment-visual-panel:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 14px 28px rgba(38, 92, 112, 0.10);
+}
+
+.appointment-visual-panel img {
+  max-width: 420px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.appointment-visual-panel:hover img {
+  transform: scale(1.04);
+}
+
+.appointment-form-panel,
+.contact-info-panel {
+  background: #ffffff;
+  border: 1px solid #dfeaf3;
+  border-radius: 18px;
+  padding: 24px 22px;
+}
+
+.appointment-form-panel {
+  background: linear-gradient(180deg, #ffffff 0%, #f1faf8 100%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.appointment-form-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(35, 92, 124, 0.07);
+}
+
+.appointment-form-panel h3,
+.contact-info-panel h3 {
+  margin: 0 0 20px;
+  font-size: 2rem;
+  color: #243d5a;
+}
+
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.form-grid .field-group {
+  flex: 1 1 calc(50% - 9px);
+  min-width: 200px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-group.full-width {
+  flex: 1 1 100%;
+}
+
+.field-group label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2c3a4d;
+}
+
+.field-group input,
+.field-group select,
+.field-group textarea {
+  width: 100%;
+  border: 1px solid #d4dfe9;
+  border-radius: 12px;
+  background: #fff;
+  color: #243d5a;
+  padding: 12px 14px;
+  font-size: 0.98rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap::after {
+  content: '▾';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #355c7a;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.select-wrap select {
+  appearance: none;
+  padding-right: 36px;
+}
+
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus {
+  outline: none;
+  border-color: #2d9be6;
+  box-shadow: 0 0 0 4px rgba(45, 155, 230, 0.1);
+}
+
+.field-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-message {
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-message.success {
+  background: #d4f4dd;
+  color: #1e6b3d;
+  border: 1px solid #9ee4b8;
+}
+
+.form-message.error {
+  background: #fde2e2;
+  color: #c1342f;
+  border: 1px solid #f4b8b8;
+}
+
+.submit-btn {
+  border: none;
+  background: linear-gradient(90deg, #1d9d76 0%, #1d5fb7 100%);
+  color: #fff;
+  padding: 16px 18px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 10px 18px rgba(24, 118, 90, 0.22);
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 14px 22px rgba(24, 118, 90, 0.25);
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.contact-info-panel {
+  background: #eaf5ff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.therapy-header-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.therapy-visual {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(118, 210, 198, 0.18), rgba(38, 128, 188, 0.08));
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 1px rgba(31, 133, 169, 0.08);
+}
+
+.therapy-visual svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.contact-info-panel > p {
+  margin: 0;
+  color: #4d596c;
+  line-height: 1.6;
+}
+
+.contact-info-list,
+.location-block {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.mini-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #1d7ac4;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 14px rgba(32, 98, 159, 0.12);
+}
+
+.contact-item strong,
+.location-item strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #243d5a;
+}
+
+.contact-item p,
+.location-item p,
+.location-item span {
+  margin: 0;
+  color: #4d596c;
+  line-height: 1.5;
+}
+
+.location-block {
+  padding-top: 8px;
+}
+
+.location-item {
+  border-top: 1px solid rgba(65, 94, 122, 0.14);
+  padding-top: 16px;
+}
+
+/* ========== TABLET VIEW (768px - 1024px) ========== */
+@media (max-width: 1024px) {
+  .contact-page-header-inner {
+    padding: 48px 20px 28px;
+  }
+
+  .contact-page-header-inner h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+  }
+
+  .contact-locations-wrapper,
+  .appointment-wrapper {
+    padding: 40px 20px 60px;
+  }
+
+  .location-grid {
+    gap: 18px;
+  }
+
+  .location-grid .location-card {
+    flex: 1 1 calc(50% - 9px);
+  }
+
+  .appointment-box {
+    flex-direction: row;
+    gap: 20px;
+    padding: 24px;
+  }
+
+  .appointment-box .appointment-visual-panel {
+    flex: 1 1 auto;
+  }
+
+  .appointment-box .appointment-form-panel,
+  .appointment-box .contact-info-panel {
+    flex: 0.9 1 auto;
+  }
+
+  .appointment-visual-panel {
+    min-height: 400px;
+  }
+}
+
+/* ========== SMALL TABLET (640px - 768px) ========== */
+@media (max-width: 768px) {
+  .contact-page-header-inner {
+    padding: 40px 18px 24px;
+  }
+
+  .contact-page-header-inner h1 {
+    font-size: clamp(1.8rem, 4.5vw, 2.4rem);
+  }
+
+  .contact-page-header-inner p {
+    font-size: 0.96rem;
+    line-height: 1.6;
+  }
+
+  .contact-header h2 {
+    font-size: clamp(2rem, 4vw, 2.6rem);
+  }
+
+  .contact-header .subtitle {
+    font-size: 0.96rem;
+  }
+
+  .location-grid {
+    gap: 16px;
+  }
+
+  .location-card {
+    padding: 22px 20px;
+    min-height: auto;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .marker-badge {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    margin-right: 0;
+    margin-bottom: 12px;
+    font-size: 1.6rem;
+  }
+
+  .location-copy h2 {
+    font-size: 1.6rem;
+  }
+
+  .support-strip {
+    flex-direction: column;
+    padding: 16px 18px;
+    gap: 12px;
+  }
+
+  .support-strip .support-item {
+    flex: 1 1 100%;
+  }
+
+  .support-item {
+    justify-content: flex-start;
+    padding: 12px 8px;
+  }
+
+  .appointment-box {
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .appointment-box .appointment-visual-panel,
+  .appointment-box .appointment-form-panel,
+  .appointment-box .contact-info-panel {
+    flex: 1 1 100%;
+  }
+
+  .appointment-visual-panel {
+    min-height: 320px;
+    order: -1;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  }
+
+  .form-grid {
+    flex-direction: column;
+  }
+
+  .form-grid .field-group {
+    flex: 1 1 100%;
+  }
+}
+
+/* ========== MOBILE (480px - 640px) ========== */
+@media (max-width: 640px) {
+  .contact-page {
+    background: linear-gradient(180deg, #f9fcff 0%, #f0f9f6 100%);
+  }
+
+  .contact-page-header {
+    padding: 0;
+  }
+
+  .contact-page-header-inner {
+    padding: 32px 16px 20px;
+  }
+
+  .contact-page-header-inner h1 {
+    font-size: clamp(1.6rem, 3.8vw, 2.2rem);
+    margin-bottom: 12px;
+  }
+
+  .contact-page-header-inner p {
+    font-size: 0.92rem;
+    max-width: 100%;
+  }
+
+  .header-badge {
+    padding: 6px 14px;
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+
+  .contact-locations-wrapper,
+  .appointment-wrapper {
+    padding: 32px 16px 50px;
+  }
+
+  .contact-header {
+    margin-bottom: 20px;
+  }
+
+  .contact-header .eyebrow {
+    font-size: 11px;
+  }
+
+  .contact-header h2 {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    margin-bottom: 12px;
+  }
+
+  .contact-header .subtitle {
+    font-size: 0.92rem;
+    margin-top: 10px;
+  }
+
+  .location-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .location-card {
+    padding: 18px 16px;
+    min-height: auto;
+    flex-direction: column;
+    text-align: center;
+    animation: cardFloat 0.6s ease-out both;
+  }
+
+  .location-card:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  .marker-badge {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    margin: 0 auto 10px;
+    font-size: 1.4rem;
+  }
+
+  .location-copy h2 {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+  }
+
+  .location-name {
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+  }
+
+  .location-address,
+  .location-phone {
+    font-size: 0.88rem;
+  }
+
+  .support-strip {
+    flex-direction: column;
+    padding: 14px 14px;
+    margin-top: 16px;
+    border-radius: 14px;
+  }
+
+  .support-strip .support-item {
+    flex: 1 1 100%;
+  }
+
+  .support-item {
+    gap: 12px;
+    padding: 10px 8px;
+    justify-content: flex-start;
+  }
+
+  .support-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .support-text span {
+    font-size: 0.78rem;
+  }
+
+  .support-text strong {
+    font-size: 0.94rem;
+  }
+
+  .section-heading {
+    margin-bottom: 20px;
+  }
+
+  .section-heading .eyebrow {
+    font-size: 11px;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(1.5rem, 3.2vw, 2rem);
+  }
+
+  .section-heading p {
+    font-size: 0.92rem;
+    max-width: 100%;
+  }
+
+  .appointment-box {
+    flex-direction: column-reverse;
+    gap: 16px;
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .appointment-box .appointment-visual-panel,
+  .appointment-box .appointment-form-panel,
+  .appointment-box .contact-info-panel {
+    flex: 1 1 100%;
+  }
+
+  .appointment-form-panel,
+  .contact-info-panel {
+    border-radius: 14px;
+    padding: 18px 16px;
+  }
+
+  .appointment-form-panel h3,
+  .contact-info-panel h3 {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .appointment-visual-panel {
+    min-height: 280px;
+    border-radius: 14px;
+    order: -1;
+  }
+
+  .form-grid {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .form-grid .field-group {
+    flex: 1 1 100%;
+  }
+
+  .field-group label {
+    font-size: 0.88rem;
+  }
+
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    padding: 10px 12px;
+    font-size: 0.96rem;
+    border-radius: 10px;
+  }
+
+  .submit-btn {
+    padding: 14px 16px;
+    font-size: 1rem;
+    border-radius: 10px;
+    margin-top: 8px;
+  }
+}
+
+/* ========== SMALL MOBILE (< 480px) ========== */
+@media (max-width: 480px) {
+  .contact-page-header-inner {
+    padding: 28px 14px 18px;
+  }
+
+  .contact-page-header-inner h1 {
+    font-size: clamp(1.4rem, 3.2vw, 1.8rem);
+  }
+
+  .contact-page-header-inner p {
+    font-size: 0.88rem;
+  }
+
+  .contact-locations-wrapper,
+  .appointment-wrapper {
+    padding: 28px 14px 42px;
+  }
+
+  .contact-header h2 {
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+  }
+
+  .contact-header .subtitle {
+    font-size: 0.88rem;
+  }
+
+  .location-card {
+    padding: 16px 14px;
+  }
+
+  .marker-badge {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    font-size: 1.2rem;
+  }
+
+  .location-copy h2 {
+    font-size: 1.2rem;
+  }
+
+  .location-name,
+  .location-address,
+  .location-phone {
+    font-size: 0.86rem;
+  }
+
+  .support-strip {
+    padding: 12px 12px;
+    border-radius: 12px;
+  }
+
+  .support-item {
+    padding: 8px 6px;
+  }
+
+  .appointment-box {
+    padding: 0px;
+    gap: 14px;
+  }
+
+  .appointment-form-panel,
+  .contact-info-panel {
+    padding: 16px 14px;
+  }
+
+  .appointment-visual-panel {
+    min-height: 240px;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+  }
+
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    padding: 9px 11px;
+    font-size: 0.94rem;
+  }
+
+  .submit-btn {
+    padding: 12px 14px;
+    font-size: 0.96rem;
+  }
+}

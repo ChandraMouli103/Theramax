@@ -1,26 +1,7 @@
 import './ViewService.css'
 import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { serviceData, serviceOrder } from './Service'
-
-const pelvicFaqs = [
-  {
-    question: 'What Is Pelvic Floor Physical Therapy?',
-    answer: 'Pelvic floor physical therapy focuses on strengthening and improving the function of pelvic floor muscles that support the bladder, bowel, and reproductive organs.'
-  },
-  {
-    question: 'What Conditions Can Pelvic Floor Therapy Help Treat?',
-    answer: 'Pelvic floor therapy may help with pelvic pain, urinary incontinence, postpartum recovery, constipation, pelvic muscle weakness, and bladder control problems.'
-  },
-  {
-    question: 'Is Pelvic Floor Therapy Only For Women?',
-    answer: 'No, pelvic floor therapy can benefit both men and women experiencing pelvic floor dysfunction or related symptoms.'
-  },
-  {
-    question: 'Is Pelvic Floor Physical Therapy Painful?',
-    answer: 'Treatment is generally gentle and designed according to each patient’s comfort level. Therapists ensure a safe and supportive treatment experience.'
-  }
-]
+import { serviceData, serviceOrder } from './ServiceCatalog'
 
 export default function ViewService() {
   const { slug } = useParams()
@@ -175,23 +156,24 @@ export default function ViewService() {
         <div className='article-section faq-accordion-wrap'>
           <h3>Frequently Asked Questions !</h3>
           <div className='faq-accordion'>
-            {pelvicFaqs.map((faq, index) => {
+            {service.faq.map((answer, index) => {
               const isOpen = activeFaq === index
+              const question = `How can ${service.title} help?`
 
               return (
-                <div key={faq.question} className={`faq-item ${isOpen ? 'active' : ''}`}>
+                <div key={`${service.slug}-faq-${index}`} className={`faq-item ${isOpen ? 'active' : ''}`}>
                   <button
                     type='button'
                     className='faq-question'
                     onClick={() => setActiveFaq(isOpen ? -1 : index)}
                     aria-expanded={isOpen}
                   >
-                    <span className='faq-question-text'>{faq.question}</span>
+                    <span className='faq-question-text'>{question}</span>
                     <span className='faq-toggle'>{isOpen ? '-' : '+'}</span>
                   </button>
                   {isOpen && (
                     <div className='faq-answer'>
-                      <p>{faq.answer}</p>
+                      <p>{answer}</p>
                     </div>
                   )}
                 </div>

@@ -4,11 +4,11 @@ import './Home.css'
 import physicalTherapyImg from '../../assets/Serviceimg/physicaltheropy.jpg'
 import tanyaimg from '../../assets/home/tanya.png'
 import pelvicfloor from '../../assets/home/PELVIC-FLOOR-PT.webp' 
-import painmangement from '../../assets/home/pain-managemnt.webp'
-import Mechanical from '../../assets/home/mechnical.webp'
+import painmangement from '../../assets/Serviceimg/advancepain.jpg'
+import Mechanical from '../../assets/Serviceimg/mechanical.jpg'
 import pediatrics from '../../assets/home/pediatrics.webp'
 import vestibular from '../../assets/home/Vestibular-Therapy.webp'
-import neurologicalImage from '../../assets/Serviceimg/neurological.webp'
+import neurologicalImage from '../../assets/Serviceimg/Neurological.webp'
 import contactImage from '../../assets/contact1.jpg'
 import rehabImage from '../../assets/Serviceimg/rehab.webp'
 const patientStories = [
@@ -73,7 +73,7 @@ const services = [
   },
   {
     id: 3,
-    title: 'Mechanical Traction',
+    title: 'Gait Training',
     description: 'Spinal decompression therapy for disc-related conditions.',
     icon: '⚽',
     img: Mechanical,

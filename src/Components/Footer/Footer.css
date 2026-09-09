@@ -2,7 +2,7 @@
 {
 	width: 100%;
 	padding: 58px 22px;
-	background:var(--theramax-dark-green, #a3f2b8);
+	background: #123b4a;
 	color: #ffffff;
 	font-family: 'Lato', sans-serif;
 }
@@ -25,6 +25,10 @@
 	max-width: 100%;
 	height: auto;
 	margin-bottom: 22px;
+	padding: 10px 14px;
+	box-sizing: border-box;
+	border-radius: 8px;
+	background: #ffffff;
 	/* filter: brightness(2) invert(1) contrast(0.8) saturate(0.5); */
 }
 .footer-tagline
@@ -85,18 +89,18 @@
 .footer-column h2
 {
 	margin: 0 0 10px;
-	color: var(--theramax-navy, #24245f);
+	color: #ffffff;
 	font-family: 'Poppins', sans-serif;
 	font-size: 16px;
     font-weight: 600;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
-    border-bottom: 2px solid var(--theramax-navy, #24245f);
+    border-bottom: 2px solid #f4a000;
 }
 .footer-column a
 {
 	
-    color: var(--theramax-line, #9fb1c6);
+	color: #d9eee8;
 	font-size: 16px;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
@@ -125,13 +129,13 @@
 	flex-direction: column;
 	gap: 2px;
 	margin: 0;
-	color: var(--theramax-line, #9fb1c6);
+	color: #d9eee8;
 	font-size: 15px;
 	line-height: 1.5;
 }
 .footer-hours .hours-list span
 {
-	color: var(--theramax-line, #9fb1c6);
+	color: #a9d7cd;
 	font-size: 12px;
 	font-weight: 700;
 	letter-spacing: 0.08em;
@@ -140,7 +144,7 @@
 }
 .footer-hours .hours-list strong
 {
-	color: var(--theramax-line, #9fb1c6);
+	color: #ffffff;
 	font-size: 16px;
 	font-weight: 600;
 }
@@ -161,7 +165,7 @@
     align-items: center;
 	gap: 20px;
 	border-top: 1px solid rgba(255, 255, 255, 0.18);
-	color: #9fb1c6;
+	color: #c7e2dc;
 	font-size: 16px;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;

@@ -30,7 +30,61 @@
     background: var(--theramax-pale-green);
     box-shadow: 0 4px 14px rgba(36, 36, 95, 0.08);
     display: flex;
+    flex-direction: column;
     justify-content: center;
+}
+.hours-ticker
+{
+    width: 100%;
+    overflow: hidden;
+    background: var(--theramax-dark-green);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+.hours-ticker-track
+{
+    display: flex;
+    width: max-content;
+    min-width: 100%;
+    animation: saturday-hours-scroll 24s linear infinite;
+}
+.hours-ticker-track span
+{
+    display: block;
+    padding: 8px 48px;
+}
+.hours-ticker-icon
+{
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    vertical-align: -2px;
+}
+.hours-ticker:hover .hours-ticker-track
+{
+    animation-play-state: paused;
+}
+@keyframes saturday-hours-scroll
+{
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce)
+{
+    .hours-ticker-track
+    {
+        animation: none;
+        justify-content: center;
+        width: 100%;
+    }
+    .hours-ticker-track span:last-child
+    {
+        display: none;
+    }
 }
 .header-main-section
 {
@@ -520,8 +574,10 @@
     }
     .header-main-section.menu-open-active
     {
-        height: 100vh;
+        height: auto;
+        min-height: 100vh;
         align-content: flex-start;
+        background: #ffffff;
     }
     .head-logo-img
     {
@@ -588,8 +644,8 @@
         gap: 0;
         width: 100%;
         max-width: none;
-        max-height: calc(100vh - 82px);
-        overflow-y: auto;
+        max-height: none;
+        overflow: visible;
         border-top: 1px solid var(--theramax-line);
         background: #ffffff;
     }
@@ -678,6 +734,8 @@
     {
         position: static;
         width: 100%;
+        min-width: 100%;
+        align-self: stretch;
         max-height: none;
         overflow: visible;
         flex-direction: column;
@@ -690,8 +748,15 @@
     }
     .services-nav[open] .services-dropdown
     {
-        display: flex;
+        display: flex !important;
+        flex-direction: column;
+        position: static !important;
         width: 100%;
+        height: auto !important;
+        min-height: 0;
+        overflow: visible !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     .services-nav[open]
     {
@@ -716,10 +781,19 @@
     }
     .service-items
     {
+        display: flex !important;
+        flex-direction: column;
+        flex: none;
+        width: 100%;
+        height: auto !important;
+        align-self: stretch;
+        max-width: none;
         min-height: auto;
         padding: 6px 16px 14px;
         gap: 6px;
         background: #ffffff;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     .service-items h3
     {
@@ -728,11 +802,31 @@
     }
     .service-item
     {
+        width: 100%;
         padding: 12px 8px;
         color: #24245f;
         font-size: 16px;
         font-weight: 600;
         line-height: 1.25;
+        display: block;
+        visibility: visible;
+        opacity: 1;
+    }
+    .services-nav[open] .services-dropdown > .service-items,
+    .services-nav[open] .services-dropdown > .service-items > .service-item
+    {
+        display: flex !important;
+        position: static !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    .services-nav[open] .services-dropdown > .service-items > .service-item
+    {
+        flex: 0 0 auto;
+        min-height: 44px;
+        align-items: center;
+        color: var(--theramax-navy) !important;
+        background: #ffffff;
     }
     .mobile-service-items
     {
@@ -761,6 +855,16 @@
 }
 @media (max-width: 600px)
 {
+    .hours-ticker
+    {
+        font-size: 10px;
+    }
+    .hours-ticker-icon
+    {
+        width: 11px;
+        height: 11px;
+        margin-right: 5px;
+    }
     .header-main-section
     {
         align-items: start;
@@ -807,8 +911,8 @@
         left: 0;
         width: 100%;
         max-width: none;
-        max-height: 70vh;
-        overflow-y: auto;
+        max-height: none;
+        overflow: visible;
         flex-direction: column;
         gap: 0;
     }

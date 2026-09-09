@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import './Contact.css'
 import image1 from '../../assets/contact1.jpg'
@@ -45,6 +46,8 @@ const serviceOptions = [
 
 export default function Contact() {
 
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
@@ -61,6 +64,7 @@ export default function Contact() {
     type: '',
     text: ''
   })
+
 
   // Scroll to appointment section
   useEffect(() => {
@@ -222,6 +226,8 @@ export default function Contact() {
         text: 'Appointment request submitted successfully! We will contact you soon.'
       })
 
+      navigate('/thank-you')
+
       // Clear form
       setFormData({
         fullName: '',
@@ -232,16 +238,6 @@ export default function Contact() {
         preferredTime: '',
         notes: ''
       })
-
-      // Remove message after 5 seconds
-      setTimeout(() => {
-
-        setMessage({
-          type: '',
-          text: ''
-        })
-
-      }, 5000)
 
     } catch (error) {
 
@@ -751,4 +747,22 @@ export default function Contact() {
 
   )
 
+}
+
+export function ThankYou() {
+  const navigate = useNavigate()
+
+  return (
+    <main className='thank-you-page'>
+      <section className='thank-you-card' aria-live='polite'>
+        <div className='thank-you-icon' aria-hidden='true'>✓</div>
+        <p className='contact-eyebrow'>Appointment Request Received</p>
+        <h1>Thank You!</h1>
+        <p className='thank-you-message'>Your appointment request has been submitted successfully. Our team will contact you soon to confirm the details.</p>
+        <button type='button' className='thank-you-back-button' onClick={() => navigate('/contact#appointment-wrapper')}>
+          Submit Another Request
+        </button>
+      </section>
+    </main>
+  )
 }

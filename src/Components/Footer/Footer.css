@@ -78,6 +78,16 @@
 	stroke: #2141df;
     fill: #2141df;
 }
+.footer-social-link[aria-label='LinkedIn'] svg
+{
+	stroke: none;
+	fill: #0a66c2;
+}
+.footer-social-link[aria-label='YouTube'] svg
+{
+	stroke: none;
+	fill: #ff0000;
+}
 .footer-column
 {
 	flex: 1 1 18%;

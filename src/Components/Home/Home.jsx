@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import './Home.css'
-import physicalTherapyImg from '../../assets/Serviceimg/physicaltheropy.jpg'
+import physicalTherapyImg from '../../assets/home/physical.jpg'
 import tanyaimg from '../../assets/home/tanya.png'
 import pelvicfloor from '../../assets/home/PELVIC-FLOOR-PT.webp' 
 import painmangement from '../../assets/Serviceimg/advancepain.jpg'
@@ -73,11 +73,11 @@ const services = [
   },
   {
     id: 3,
-    title: 'Gait Training',
+    title: 'Gait Traction ',
     description: 'Spinal decompression therapy for disc-related conditions.',
     icon: '⚽',
     img: Mechanical,
-    slug: 'mechanical-traction',
+    slug: 'gait-training',
     badge: 'New'
   },
   {
@@ -240,7 +240,7 @@ export default function Home() {
       <section className='hero-section'>
         <div className='hero-content'>
           <div className='hero-text'>
-            <h1>Restore Your Motion, Reclaim Your Life</h1>
+            <h1>Restore Your Motion, Relieve Your Pain</h1>
             <p>Expert physical therapy designed to help you move pain-free and live fully. We're dedicated to your recovery journey.</p>
             <div className='hero-cta'>
               <Link to='/contact#appointment-wrapper' className='btn-primary'>Book Appointment</Link>

@@ -38,7 +38,7 @@ export default function Header() {
         { label: 'Pain Management', slug: 'pain-management' },
         {label: 'Manual Therapy', slug: 'manual-therapy'},
         {label: 'Mechanical Traction', slug: 'mechanical-traction'},
-        { label: 'Gait Training', slug: 'gait-training' },
+        { label: 'Gait Traction', slug: 'gait-training' },
         { label: 'Post-Surgical Care', slug: 'post-surgical-care' },
         { label: 'Pediatric', slug: 'pediatrics' },
       { label: 'Vestibular Therapy', slug: 'vestibular-therapy' },

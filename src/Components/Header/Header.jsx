@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import './Header.css'
-import logo from '../../assets/Logo.webp'
+import logo from '../../assets/Logo.png'
 
 export default function Header() {
   
   const [menuOpen, setMenuOpen] = useState(false)
-  const [activeNav, setActiveNav] = useState('Home')
+  const location = useLocation()
     const navigate = useNavigate()
     const servicesDetailsRef = useRef(null)
 
@@ -29,9 +29,10 @@ export default function Header() {
       navigate(`/services/${slug}`)
     }
 
-    const handleServicesToggle = () => {
-      setActiveNav('Services')
-    }
+    const isHomeActive = location.pathname === '/'
+    const isAboutActive = location.pathname === '/about'
+    const isServicesActive = location.pathname.startsWith('/services')
+    const isContactActive = location.pathname === '/contact'
 // pelvic floor, Pain management, Manual Therapy, Mechanical Traction, Gait Training, Post Surgical Care, pediatrics, vestibular Therapy, Laser Therapy, dry Needling, Cupping
     const services = [
       { label: 'Pelvic Floor PT', slug: 'pelvic-floor-pt' },
@@ -54,12 +55,15 @@ export default function Header() {
     <div className='hours-ticker' role='status' aria-label='Saturday working hours'>
       <div className='hours-ticker-track'>
         <span><svg className='hours-ticker-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' aria-hidden='true'><path d='M8 2v4M16 2v4M3 10h18' /><rect x='3' y='4' width='18' height='18' rx='2' /></svg>Saturday appointments available - 9:00 AM to 2:00 PM</span>
+        <span aria-hidden='true'><svg className='hours-ticker-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><rect x='3' y='5' width='13' height='14' rx='2' /><path d='m16 10 5-3v10l-5-3z' /><path d='M7 9h5M7 13h3' /></svg>Free Telehealth Consultation</span>
         <span aria-hidden='true'><svg className='hours-ticker-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><path d='M8 2v4M16 2v4M3 10h18' /><rect x='3' y='4' width='18' height='18' rx='2' /></svg>Saturday appointments available - 9:00 AM to 2:00 PM</span>
-        <span aria-hidden='true'><svg className='hours-ticker-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><path d='M8 2v4M16 2v4M3 10h18' /><rect x='3' y='4' width='18' height='18' rx='2' /></svg>Saturday appointments available - 9:00 AM to 2:00 PM</span>
+        <span aria-hidden='true'><svg className='hours-ticker-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><rect x='3' y='5' width='13' height='14' rx='2' /><path d='m16 10 5-3v10l-5-3z' /><path d='M7 9h5M7 13h3' /></svg>Free Telehealth Consultation</span>
       </div>
     </div>
     <div className={`header-main-section ${menuOpen ? 'menu-open-active' : ''}`}>
-      <img src={logo} alt="Logo" className='head-logo-img' />
+      <Link to='/' aria-label='Go to Theramax home page' onClick={() => setMenuOpen(false)}>
+        <img src={logo} alt='Theramax Physical Therapy' className='head-logo-img' />
+      </Link>
       <div className='mobile-header-controls'>
         <a className='mobile-call-button' href='tel:+14692698520' aria-label='Call Theramax'>
           {callicon}
@@ -77,24 +81,17 @@ export default function Header() {
         </button>
       </div>
       <div className={`header-nav ${menuOpen ? 'menu-open' : ''}`}>
-        <NavLink to='/' className={`nav-item ${activeNav === 'Home' ? 'active' : ''}`} onClick={() => {
-          setActiveNav('Home')
-          setMenuOpen(false)
-        }}>
+        <NavLink to='/' className={`nav-item ${isHomeActive ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>
           Home
         </NavLink>
-        <NavLink to='/about' className={`nav-item ${activeNav === 'About' ? 'active' : ''}`} onClick={() => {
-          setActiveNav('About')
-          setMenuOpen(false)
-        }}>
+        <NavLink to='/about' className={`nav-item ${isAboutActive ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>
           About
         </NavLink>
         <details
           ref={servicesDetailsRef}
-          className={`nav-item services-nav ${activeNav === 'Services' ? 'active' : ''}`}
-          onToggle={(event) => event.currentTarget.open && setActiveNav('Services')}
+          className={`nav-item services-nav ${isServicesActive ? 'active' : ''}`}
         >
-          <summary className='services-trigger' onClick={handleServicesToggle}>
+          <summary className='services-trigger'>
             <span className='nav-item'>Services</span>
             <span className='services-chevron' aria-hidden='true' />
           </summary>
@@ -116,10 +113,7 @@ export default function Header() {
             </div>
           </div>
         </details>
-        <NavLink to='/contact' className={`nav-item ${activeNav === 'Contact' ? 'active' : ''}`} onClick={() => {
-          setActiveNav('Contact')
-          setMenuOpen(false)
-        }}>
+        <NavLink to='/contact' className={`nav-item ${isContactActive ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>
           Contact
         </NavLink>
         <div className='mobile-header-actions'>

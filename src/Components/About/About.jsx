@@ -86,9 +86,9 @@ const locations = [
     id: 'east-frisco',
     city: 'East Frisco, TX',
     label: 'East Frisco Location',
-    address: 'Oaks 7101 Custer Rd St # 840 Frisco, TX, 75035.',
+    address: 'Oaks 7101 Custer Rd Suite 840, Frisco, TX 75035.',
     phone: '(469) 665-6237',
-    mapQuery: '7101 Custer Rd, Frisco, TX 75035'
+    mapQuery: 'Theramax Physical Therapy, Oaks 7101 Custer Rd Suite 840, Frisco, TX 75035'
   },
   {
     id: 'west-frisco',

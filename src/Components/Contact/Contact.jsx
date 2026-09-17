@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import './Contact.css'
 import image1 from '../../assets/contact1.jpg'
+
 const locations = [
   {
     id: 'east',
     city: 'East Frisco, TX',
     label: 'East Frisco Location',
-    address: ' Oaks 7101 Custer Rd St # 840 Frisco TX 75035',
+    address: 'Oaks 7101 Custer Rd Suite 840 Frisco TX 75035',
     phone: '(469) 665-6237',
-    mapQuery: '7101 Custer Rd, Frisco, TX 75035',
+    mapQuery:
+      'Theramax Physical Therapy, Oaks 7101 Custer Rd Suite 840, Frisco, TX 75035',
   },
   {
     id: 'west',
@@ -27,256 +29,337 @@ const contactMethods = [
     type: 'phone',
     label: 'Need Support?',
     value: '(469) 262-5630, (469) 717-0194',
-    icon: '☎'
+    icon: '☎',
   },
   {
     type: 'email',
     label: 'Email Us',
     value: 'Tanya.theramax@gmail.com',
-    icon: '✉'
+    icon: '✉',
   },
 ]
 
 const serviceOptions = [
   'Physical Therapy',
-  'Rehab',
   'Sports Recovery',
-  'Pain Management'
+  'Pain Management',
+  'Free Telehealth Consultation',
 ]
 
-export default function Contact() {
+const initialFormData = {
+  fullName: '',
+  phone: '',
+  email: '',
+  service: '',
+  preferredDate: '',
+  preferredTime: '',
+  notes: '',
+}
 
+const LIMITS = {
+  fullName: 100,
+  phone: 25,
+  email: 254,
+  notes: 2000,
+}
+
+const SUBMIT_COOLDOWN_MS = 30 * 1000
+
+const normalizeText = (value) =>
+  value.replace(/\s+/g, ' ').trim()
+
+const getDayName = (dateString) => {
+  if (!dateString) return ''
+
+  const date = new Date(`${dateString}T12:00:00`)
+
+  if (Number.isNaN(date.getTime())) return ''
+
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+  })
+}
+
+const isValidEmail = (email) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
+const isValidPhone = (phone) => {
+  if (!phone) return true
+
+  const digits = phone.replace(/\D/g, '')
+
+  return digits.length >= 7 && digits.length <= 15
+}
+
+const isValidDate = (dateString) => {
+  if (!dateString) return true
+
+  const date = new Date(`${dateString}T12:00:00`)
+
+  if (Number.isNaN(date.getTime())) return false
+
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  return date >= today
+}
+
+export default function Contact() {
   const navigate = useNavigate()
 
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    service: '',
-    preferredDate: '',
-    preferredTime: '',
-    notes: ''
-  })
+  const [formData, setFormData] = useState(initialFormData)
 
   const [loading, setLoading] = useState(false)
 
   const [message, setMessage] = useState({
     type: '',
-    text: ''
+    text: '',
   })
 
+  // Honeypot protection
+  const [website, setWebsite] = useState('')
 
-  // Scroll to appointment section
+  // Checkbox verification
+  const [isVerified, setIsVerified] = useState(false)
+
+  // Submission cooldown
+  const [lastSubmitTime, setLastSubmitTime] = useState(0)
+
   useEffect(() => {
-
     if (window.location.hash === '#appointment-wrapper') {
-
       const element = document.getElementById('appointment-wrapper')
 
       if (element) {
-
         setTimeout(() => {
-
           element.scrollIntoView({
             behavior: 'smooth',
-            block: 'start'
+            block: 'start',
           })
-
         }, 100)
-
       }
-
     }
-
   }, [])
 
-  // Handle all inputs
   const handleInputChange = (e) => {
-
     const { id, value } = e.target
 
-    setFormData(prev => ({
+    const maxLength = LIMITS[id]
+
+    if (maxLength && value.length > maxLength) {
+      return
+    }
+
+    setFormData((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }))
 
-    // If date changes, reset preferred time
     if (id === 'preferredDate') {
-
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         preferredDate: value,
-        preferredTime: ''
+        preferredTime: '',
       }))
-
     }
 
-  }
-
-  // Get day name from selected date
-  const getDayName = (dateString) => {
-
-    if (!dateString) {
-      return ''
+    if (message.type === 'error') {
+      setMessage({
+        type: '',
+        text: '',
+      })
     }
-
-    // Add time to avoid timezone problems
-    const date = new Date(`${dateString}T12:00:00`)
-
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long'
-    })
-
   }
 
   const selectedDay = getDayName(formData.preferredDate)
 
-  // Sunday = closed
   const isSunday = selectedDay === 'Sunday'
 
-  // Saturday = only morning + afternoon
   const isSaturday = selectedDay === 'Saturday'
 
-  // Monday-Friday
   const isWeekday = [
     'Monday',
     'Tuesday',
     'Wednesday',
     'Thursday',
-    'Friday'
+    'Friday',
   ].includes(selectedDay)
 
-  // Submit form
-  const handleSubmit = async (e) => {
+  const validateForm = () => {
+    const fullName = normalizeText(formData.fullName)
+    const phone = normalizeText(formData.phone)
+    const email = normalizeText(formData.email).toLowerCase()
+    const notes = normalizeText(formData.notes)
 
+    if (!fullName || !phone || !email) {
+      return 'Please fill in all required fields.'
+    }
+
+    if (
+      fullName.length < 2 ||
+      fullName.length > LIMITS.fullName
+    ) {
+      return 'Please enter a valid full name.'
+    }
+
+    if (!isValidEmail(email)) {
+      return 'Please enter a valid email address.'
+    }
+
+    if (!isValidPhone(phone)) {
+      return 'Please enter a valid phone number.'
+    }
+
+    if (
+      formData.service &&
+      !serviceOptions.includes(formData.service)
+    ) {
+      return 'Please select a valid service.'
+    }
+
+    if (!isValidDate(formData.preferredDate)) {
+      return 'Please select a valid future date.'
+    }
+
+    if (isSunday) {
+      return 'Sunday is a closed day. Please select Monday through Saturday.'
+    }
+
+    if (
+      formData.preferredDate &&
+      !formData.preferredTime
+    ) {
+      return 'Please select a preferred time.'
+    }
+
+    if (
+      isSaturday &&
+      formData.preferredTime.includes('Evening')
+    ) {
+      return 'Evening appointments are not available on Saturday.'
+    }
+
+    if (notes.length > LIMITS.notes) {
+      return 'Additional notes must be 2000 characters or less.'
+    }
+
+    return null
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (loading) return
+
+    // Checkbox verification
+    if (!isVerified) {
+      setMessage({
+        type: 'error',
+        text: 'Please check the verification box before requesting an appointment.',
+      })
+      return
+    }
+
+    // Honeypot protection
+    if (website.trim() !== '') {
+      setMessage({
+        type: 'error',
+        text: 'Unable to submit this request. Please try again.',
+      })
+      return
+    }
+
+    // Submission cooldown
+    const now = Date.now()
+
+    if (now - lastSubmitTime < SUBMIT_COOLDOWN_MS) {
+      const remainingSeconds = Math.ceil(
+        (SUBMIT_COOLDOWN_MS -
+          (now - lastSubmitTime)) /
+          1000
+      )
+
+      setMessage({
+        type: 'error',
+        text: `Please wait ${remainingSeconds} seconds before submitting again.`,
+      })
+
+      return
+    }
+
+    const validationError = validateForm()
+
+    if (validationError) {
+      setMessage({
+        type: 'error',
+        text: validationError,
+      })
+
+      return
+    }
 
     setLoading(true)
 
     setMessage({
       type: '',
-      text: ''
+      text: '',
     })
 
-    // Required fields
-    if (!formData.fullName || !formData.email) {
-
-      setMessage({
-        type: 'error',
-        text: 'Please fill in all required fields.'
-      })
-
-      setLoading(false)
-
-      return
-    }
-
-    // Sunday validation
-    if (isSunday) {
-
-      setMessage({
-        type: 'error',
-        text: 'Sunday is a closed day. Please select Monday through Saturday.'
-      })
-
-      setLoading(false)
-
-      return
+    const templateParams = {
+      fullName: normalizeText(formData.fullName),
+      phone: normalizeText(formData.phone),
+      email: normalizeText(formData.email).toLowerCase(),
+      service: formData.service,
+      preferredDate: formData.preferredDate,
+      preferredTime: formData.preferredTime,
+      notes: normalizeText(formData.notes),
     }
 
     try {
-
-      // EmailJS data
-      const templateParams = {
-
-        fullName: formData.fullName,
-
-        phone: formData.phone,
-
-        email: formData.email,
-
-        service: formData.service,
-
-        preferredDate: formData.preferredDate,
-
-        preferredTime: formData.preferredTime,
-
-        notes: formData.notes
-
-      }
-
-      // Send email
       await emailjs.send(
-
         'service_6vfpfza',
-
         'template_tnu0qzi',
-
         templateParams,
-
         {
-          publicKey: 'srOc6NI1Npv_efRHu'
+          publicKey: 'srOc6NI1Npv_efRHu',
         }
-
       )
 
-      // Success
+      setLastSubmitTime(Date.now())
+
       setMessage({
         type: 'success',
-        text: 'Appointment request submitted successfully! We will contact you soon.'
+        text: 'Appointment request submitted successfully! We will contact you soon.',
       })
+
+      setFormData(initialFormData)
+
+      setWebsite('')
+
+      // Reset verification
+      setIsVerified(false)
 
       navigate('/thank-you')
-
-      // Clear form
-      setFormData({
-        fullName: '',
-        phone: '',
-        email: '',
-        service: '',
-        preferredDate: '',
-        preferredTime: '',
-        notes: ''
-      })
-
     } catch (error) {
-
       console.error('EmailJS Error:', error)
-
-      console.error(
-        'EmailJS Status:',
-        error?.status
-      )
-
-      console.error(
-        'EmailJS Text:',
-        error?.text
-      )
 
       setMessage({
         type: 'error',
-        text: 'Failed to submit. Please try again or contact us directly.'
+        text: 'Failed to submit. Please try again or contact us directly.',
       })
-
     } finally {
-
       setLoading(false)
-
     }
-
   }
 
   return (
-
-    <div className='contact-page'>
+    <div className="contact-page">
 
       {/* HEADER */}
 
-      <header className='contact-page-header'>
+      <header className="contact-page-header">
+        <div className="contact-page-header-inner">
 
-        <div className='contact-page-header-inner'>
-
-          <div className='header-badge'>
+          <div className="header-badge">
             Contact Us
           </div>
 
@@ -285,21 +368,21 @@ export default function Contact() {
           </h1>
 
           <p>
-            Ready to take the first step toward feeling better? Schedule your appointment today or reach out with any questions.
+            Ready to take the first step toward feeling better?
+            Schedule your appointment today or reach out with any questions.
           </p>
 
         </div>
-
       </header>
 
 
       {/* LOCATIONS */}
 
-      <section className='contact-locations-wrapper'>
+      <section className="contact-locations-wrapper">
 
-        <div className='contact-header'>
+        <div className="contact-header">
 
-          <p className='eyebrow'>
+          <p className="eyebrow">
             Need any help ? Get in touch with us
           </p>
 
@@ -307,54 +390,89 @@ export default function Contact() {
             Two Convenient Locations
           </h2>
 
-          <p className='subtitle'>
-            Visit us at whichever location works best for you — our team is
-            ready to welcome you.
+          <p className="subtitle">
+            Visit us at whichever location works best for you —
+            our team is ready to welcome you.
           </p>
 
         </div>
 
 
-        <div className='location-grid'>
+        <div className="location-grid">
 
           {locations.map((location) => (
 
-            <article key={location.id} className='location-card'>
-              <div className='location-card-copy'>
-                <span className='marker-badge' aria-hidden='true'>
-                  <svg viewBox='0 0 24 24' role='presentation'>
-                    <path d='M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z' />
-                    <circle cx='12' cy='10' r='2.5' />
+            <article
+              key={location.id}
+              className="location-card"
+            >
+
+              <div className="location-card-copy">
+
+                <span
+                  className="marker-badge"
+                  aria-hidden="true"
+                >
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    role="presentation"
+                  >
+
+                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+
+                    <circle
+                      cx="12"
+                      cy="10"
+                      r="2.5"
+                    />
+
                   </svg>
+
                 </span>
 
-                <p className='location-city'>
+
+                <p className="location-city">
                   {location.city}
                 </p>
 
-                <h3 className='location-name'>
+
+                <h3 className="location-name">
                   {location.label}
                 </h3>
 
-                <address className='location-address'>
+
+                <address className="location-address">
                   {location.address}
                 </address>
 
+
                 <a
-                  href={`tel:${location.phone.replace(/[^\d]/g, '')}`}
-                  className='location-phone'
+                  href={`tel:${location.phone.replace(
+                    /[^\d]/g,
+                    ''
+                  )}`}
+                  className="location-phone"
                 >
                   Call: {location.phone}
                 </a>
+
               </div>
-              <div className='location-map-cont'>
+
+
+              <div className="location-map-cont">
+
                 <iframe
                   title={`${location.label} map`}
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(location.mapQuery)}&output=embed`}
-                  loading='lazy'
-                  referrerPolicy='no-referrer-when-downgrade'
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(
+                    location.mapQuery
+                  )}&output=embed`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
                 />
+
               </div>
+
             </article>
 
           ))}
@@ -364,24 +482,26 @@ export default function Contact() {
 
         {/* SUPPORT */}
 
-        <div className='support-strip'>
+        <div className="support-strip">
 
           {contactMethods.map((method) => (
 
             <div
               key={method.type}
-              className='support-item'
+              className="support-item"
             >
 
-              <div className='support-icon'>
+              <div className="support-icon">
                 {method.icon}
               </div>
 
-              <div className='support-text'>
+
+              <div className="support-text">
 
                 <span>
                   {method.label}
                 </span>
+
 
                 {method.type === 'phone' ? (
 
@@ -389,7 +509,7 @@ export default function Contact() {
                     href={`tel:${method.value
                       .split(',')[0]
                       .replace(/[^\d]/g, '')}`}
-                    className='support-phone-link'
+                    className="support-phone-link"
                   >
                     {method.value}
                   </a>
@@ -416,13 +536,13 @@ export default function Contact() {
       {/* APPOINTMENT */}
 
       <section
-        id='appointment-wrapper'
-        className='appointment-wrapper'
+        id="appointment-wrapper"
+        className="appointment-wrapper"
       >
 
-        <div className='section-heading'>
+        <div className="section-heading">
 
-          <p className='eyebrow dark'>
+          <p className="eyebrow dark">
             Contact us
           </p>
 
@@ -438,9 +558,9 @@ export default function Contact() {
         </div>
 
 
-        <div className='appointment-box'>
+        <div className="appointment-box">
 
-          <div className='appointment-form-panel'>
+          <div className="appointment-form-panel">
 
             <h3>
               Book An Appointment
@@ -453,13 +573,13 @@ export default function Contact() {
 
               <div
                 className={`form-message ${message.type}`}
+                role="alert"
+                aria-live="polite"
               >
 
                 {message.type === 'success'
                   ? '✓'
-                  : '⚠'}
-
-                {' '}
+                  : '⚠'}{' '}
 
                 {message.text}
 
@@ -469,27 +589,64 @@ export default function Contact() {
 
 
             <form
-              className='appointment-form'
+              className="appointment-form"
               onSubmit={handleSubmit}
+              noValidate
             >
 
-              <div className='form-grid'>
+
+              {/* HONEYPOT */}
+
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '-9999px',
+                  width: '1px',
+                  height: '1px',
+                  overflow: 'hidden',
+                }}
+                aria-hidden="true"
+              >
+
+                <label htmlFor="website">
+                  Leave this field empty
+                </label>
+
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  value={website}
+                  onChange={(e) =>
+                    setWebsite(e.target.value)
+                  }
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
+
+              </div>
+
+
+              <div className="form-grid">
 
 
                 {/* FULL NAME */}
 
-                <div className='field-group'>
+                <div className="field-group">
 
-                  <label htmlFor='fullName'>
-                    Full Name *
+                  <label htmlFor="fullName">
+                    Full Name <span className="required-mark" aria-hidden="true">*</span>
                   </label>
 
                   <input
-                    id='fullName'
-                    type='text'
-                    placeholder='Your name'
+                    id="fullName"
+                    name="fullName"
+                    type="text"
+                    placeholder="Your name"
                     value={formData.fullName}
                     onChange={handleInputChange}
+                    maxLength={LIMITS.fullName}
+                    autoComplete="name"
                     required
                   />
 
@@ -498,18 +655,22 @@ export default function Contact() {
 
                 {/* PHONE */}
 
-                <div className='field-group'>
+                <div className="field-group">
 
-                  <label htmlFor='phone'>
-                    Phone
+                  <label htmlFor="phone">
+                    Phone <span className="required-mark" aria-hidden="true">*</span>
                   </label>
 
                   <input
-                    id='phone'
-                    type='tel'
-                    placeholder='(520) 555-5555'
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="(520) 555-5555"
                     value={formData.phone}
                     onChange={handleInputChange}
+                    maxLength={LIMITS.phone}
+                    autoComplete="tel"
+                    required
                   />
 
                 </div>
@@ -517,18 +678,21 @@ export default function Contact() {
 
                 {/* EMAIL */}
 
-                <div className='field-group full-width'>
+                <div className="field-group full-width">
 
-                  <label htmlFor='email'>
-                    Email *
+                  <label htmlFor="email">
+                    Email <span className="required-mark" aria-hidden="true">*</span>
                   </label>
 
                   <input
-                    id='email'
-                    type='email'
-                    placeholder='your@email.com'
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="your@email.com"
                     value={formData.email}
                     onChange={handleInputChange}
+                    maxLength={LIMITS.email}
+                    autoComplete="email"
                     required
                   />
 
@@ -537,21 +701,22 @@ export default function Contact() {
 
                 {/* SERVICE */}
 
-                <div className='field-group'>
+                <div className="field-group">
 
-                  <label htmlFor='service'>
+                  <label htmlFor="service">
                     Service
                   </label>
 
-                  <div className='select-wrap'>
+                  <div className="select-wrap">
 
                     <select
-                      id='service'
+                      id="service"
+                      name="service"
                       value={formData.service}
                       onChange={handleInputChange}
                     >
 
-                      <option value=''>
+                      <option value="">
                         Select Service
                       </option>
 
@@ -561,9 +726,7 @@ export default function Contact() {
                           key={option}
                           value={option}
                         >
-
                           {option}
-
                         </option>
 
                       ))}
@@ -577,17 +740,23 @@ export default function Contact() {
 
                 {/* PREFERRED DATE */}
 
-                <div className='field-group'>
+                <div className="field-group">
 
-                  <label htmlFor='preferredDate'>
+                  <label htmlFor="preferredDate">
                     Preferred Date
                   </label>
 
                   <input
-                    id='preferredDate'
-                    type='date'
+                    id="preferredDate"
+                    name="preferredDate"
+                    type="date"
                     value={formData.preferredDate}
                     onChange={handleInputChange}
+                    min={
+                      new Date()
+                        .toISOString()
+                        .split('T')[0]
+                    }
                   />
 
                 </div>
@@ -595,62 +764,60 @@ export default function Contact() {
 
                 {/* PREFERRED TIME */}
 
-                <div className='field-group'>
+                <div className="field-group">
 
-                  <label htmlFor='preferredTime'>
+                  <label htmlFor="preferredTime">
                     Preferred Time
                   </label>
 
-                  <div className='select-wrap'>
+                  <div className="select-wrap">
 
                     <select
-                      id='preferredTime'
+                      id="preferredTime"
+                      name="preferredTime"
                       value={formData.preferredTime}
                       onChange={handleInputChange}
-                      disabled={!formData.preferredDate || isSunday}
+                      disabled={
+                        !formData.preferredDate ||
+                        isSunday
+                      }
                     >
-
-                      {/* No date selected */}
 
                       {!formData.preferredDate && (
 
-                        <option value=''>
+                        <option value="">
                           Select Preferred Date First
                         </option>
 
                       )}
 
 
-                      {/* Sunday */}
-
                       {isSunday && (
 
-                        <option value=''>
+                        <option value="">
                           Sunday - Closed
                         </option>
 
                       )}
 
 
-                      {/* Monday-Friday */}
-
                       {isWeekday && (
 
                         <>
 
-                          <option value=''>
+                          <option value="">
                             Select Preferred Time
                           </option>
 
-                          <option value='Morning (9 AM - 12 PM)'>
+                          <option value="Morning (9 AM - 12 PM)">
                             Morning (9 AM - 12 PM)
                           </option>
 
-                          <option value='Afternoon (12 PM - 2 PM)'>
+                          <option value="Afternoon (12 PM - 2 PM)">
                             Afternoon (12 PM - 2 PM)
                           </option>
 
-                          <option value='Evening (3 PM - 6 PM)'>
+                          <option value="Evening (3 PM - 6 PM)">
                             Evening (3 PM - 6 PM)
                           </option>
 
@@ -659,21 +826,19 @@ export default function Contact() {
                       )}
 
 
-                      {/* Saturday */}
-
                       {isSaturday && (
 
                         <>
 
-                          <option value=''>
+                          <option value="">
                             Select Preferred Time
                           </option>
 
-                          <option value='Morning (9 AM - 12 PM)'>
+                          <option value="Morning (9 AM - 12 PM)">
                             Morning (9 AM - 12 PM)
                           </option>
 
-                          <option value='Afternoon (12 PM - 2 PM)'>
+                          <option value="Afternoon (12 PM - 2 PM)">
                             Afternoon (12 PM - 2 PM)
                           </option>
 
@@ -692,19 +857,74 @@ export default function Contact() {
 
               {/* NOTES */}
 
-              <div className='field-group'>
+              <div className="field-group">
 
-                <label htmlFor='notes'>
+                <label htmlFor="notes">
                   Additional Notes
                 </label>
 
                 <textarea
-                  id='notes'
-                  rows='4'
-                  placeholder='Tell us about your condition or any special concerns...'
+                  id="notes"
+                  name="notes"
+                  rows="4"
+                  placeholder="Tell us about your condition or any special concerns..."
                   value={formData.notes}
                   onChange={handleInputChange}
+                  maxLength={LIMITS.notes}
                 />
+
+              </div>
+
+
+              {/* CHECKBOX VERIFICATION */}
+
+              <div
+                className="verification-box"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  margin: '15px 0',
+                  padding: '12px 14px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  background: '#fafafa',
+                }}
+              >
+
+                <input
+                  id="verification"
+                  name="verification"
+                  type="checkbox"
+                  checked={isVerified}
+                  onChange={(e) => {
+                    setIsVerified(e.target.checked)
+
+                    if (message.type === 'error') {
+                      setMessage({
+                        type: '',
+                        text: '',
+                      })
+                    }
+                  }}
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    cursor: 'pointer',
+                  }}
+                />
+
+                <label
+                  htmlFor="verification"
+                  style={{
+                    cursor: 'pointer',
+                    margin: 0,
+                    fontSize: '14px',
+                  }}
+                >
+                  I confirm that the information provided
+                  is correct.
+                </label>
 
               </div>
 
@@ -712,9 +932,19 @@ export default function Contact() {
               {/* SUBMIT */}
 
               <button
-                type='submit'
-                className='submit-btn'
-                disabled={loading}
+                type="submit"
+                className="submit-btn"
+                disabled={loading || !isVerified}
+                style={{
+                  opacity:
+                    !isVerified || loading
+                      ? 0.6
+                      : 1,
+                  cursor:
+                    !isVerified || loading
+                      ? 'not-allowed'
+                      : 'pointer',
+                }}
               >
 
                 {loading
@@ -730,11 +960,11 @@ export default function Contact() {
 
           {/* IMAGE */}
 
-          <div className='appointment-visual-panel'>
+          <div className="appointment-visual-panel">
 
             <img
               src={image1}
-              alt='Therapy consultation'
+              alt="Therapy consultation"
             />
 
           </div>
@@ -744,25 +974,62 @@ export default function Contact() {
       </section>
 
     </div>
-
   )
-
 }
+
 
 export function ThankYou() {
   const navigate = useNavigate()
 
   return (
-    <main className='thank-you-page'>
-      <section className='thank-you-card' aria-live='polite'>
-        <div className='thank-you-icon' aria-hidden='true'>✓</div>
-        <p className='contact-eyebrow'>Appointment Request Received</p>
-        <h1>Thank You!</h1>
-        <p className='thank-you-message'>Your appointment request has been submitted successfully. Our team will contact you soon to confirm the details.</p>
-        <button type='button' className='thank-you-back-button' onClick={() => navigate('/contact#appointment-wrapper')}>
+
+    <main className="thank-you-page">
+
+      <section
+        className="thank-you-card"
+        aria-live="polite"
+      >
+
+        <div
+          className="thank-you-icon"
+          aria-hidden="true"
+        >
+          ✓
+        </div>
+
+
+        <p className="contact-eyebrow">
+          Appointment Request Received
+        </p>
+
+
+        <h1>
+          Thank You!
+        </h1>
+
+
+        <p className="thank-you-message">
+          Your appointment request has been submitted
+          successfully. Our team will contact you soon
+          to confirm the details.
+        </p>
+
+
+        <button
+          type="button"
+          className="thank-you-back-button"
+          onClick={() =>
+            navigate(
+              '/contact#appointment-wrapper'
+            )
+          }
+        >
           Submit Another Request
         </button>
+
       </section>
+
     </main>
+
   )
 }

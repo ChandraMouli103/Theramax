@@ -8,6 +8,7 @@ import painmangement from '../../assets/Serviceimg/advancepain.jpg'
 import Mechanical from '../../assets/Serviceimg/mechanical.jpg'
 import pediatrics from '../../assets/home/pediatrics.webp'
 import vestibular from '../../assets/home/Vestibular-Therapy.webp'
+import gaitImage from '../../assets/Serviceimg/Mechanical.webp'
 import neurologicalImage from '../../assets/Serviceimg/Neurological.webp'
 import contactImage from '../../assets/contact1.jpg'
 import rehabImage from '../../assets/Serviceimg/rehab.webp'
@@ -74,9 +75,9 @@ const services = [
   {
     id: 3,
     title: 'Gait Traction ',
-    description: 'Spinal decompression therapy for disc-related conditions.',
+    description: 'Walking and balance rehabilitation for improved independence.',
     icon: '⚽',
-    img: Mechanical,
+    img: gaitImage,
     slug: 'gait-training',
     badge: 'New'
   },

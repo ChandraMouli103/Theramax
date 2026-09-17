@@ -574,6 +574,11 @@
   color: #2c3a4d;
 }
 
+.required-mark {
+  color: #d62828;
+  font-weight: 800;
+}
+
 .field-group input,
 .field-group select,
 .field-group textarea {

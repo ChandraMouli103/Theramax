@@ -1,6 +1,7 @@
 import './Footer.css'
 import { Link } from 'react-router-dom'
-import logo from '../../assets/Logo.webp'
+// import logo from '../../assets/Logo.webp'
+import logo from '../../assets/Logo.png'
 
 const facebookIcon = <svg xmlns="http://www.w3.org/2000/svg" height="42" width="42" viewBox="0 0 640 640"><path fill="rgb(12, 136, 233)" d="M576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 440 146.7 540.8 258.2 568.5L258.2 398.2L205.4 398.2L205.4 320L258.2 320L258.2 286.3C258.2 199.2 297.6 158.8 383.2 158.8C399.4 158.8 427.4 162 438.9 165.2L438.9 236C432.9 235.4 422.4 235 409.3 235C367.3 235 351.1 250.9 351.1 292.2L351.1 320L434.7 320L420.3 398.2L351 398.2L351 574.1C477.8 558.8 576 450.9 576 320z"/></svg>
 const instagramIcon=<svg xmlns="http://www.w3.org/2000/svg" height="42" width="42" viewBox="0 0 640 640">
@@ -14,7 +15,9 @@ export default function Footer() {
         <footer className='site-footer'>
           <div className='footer-main'>
             <section className='footer-brand-section'>
-              <img className='footer-logo' src={logo} alt='Theramax Physical Therapy' />
+              <Link to='/' aria-label='Go to Theramax home page'>
+                <img className='footer-logo' src={logo} alt='Theramax Physical Therapy' />
+              </Link>
               <p className='footer-tagline'>Expert physical therapy for stronger movement, less pain, and a more active life.</p>
               <div className='footer-socials' aria-label='Social media links'>
                 <a className='footer-social-link' href='https://www.facebook.com/theramaxrehabs/' target='_blank' rel='noreferrer' aria-label='Facebook'>{facebookIcon}</a>
@@ -25,7 +28,10 @@ export default function Footer() {
             </section>
             <section className='footer-column'>
               <h2>Our Locations</h2>
-              <address><a href='#east-frisco'>East Frisco, TX</a><a href='#west-frisco'>West Frisco, TX</a></address>
+              <address>
+                <a href='https://www.google.com/maps/search/?api=1&query=Theramax%20Physical%20Therapy%2C%20Oaks%207101%20Custer%20Rd%20Suite%20840%2C%20Frisco%2C%20TX%2075035' target='_blank' rel='noreferrer'>East Frisco, TX</a>
+                <a href='https://www.google.com/maps/search/?api=1&query=Theramax%20Physical%20Therapy%2C%208680%20Main%20St%20Suite%203W%2C%20Frisco%2C%20TX%2075033' target='_blank' rel='noreferrer'>West Frisco, TX</a>
+              </address>
             </section>
             <nav className='footer-column' aria-label='Quick links'>
               <h2>Quick Links</h2>

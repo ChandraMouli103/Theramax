@@ -29,7 +29,7 @@ export default function Footer() {
             <section className='footer-column'>
               <h2>Our Locations</h2>
               <address>
-                <a href='https://www.google.com/maps/search/?api=1&query=Theramax%20Physical%20Therapy%2C%20Oaks%207101%20Custer%20Rd%20Suite%20840%2C%20Frisco%2C%20TX%2075035' target='_blank' rel='noreferrer'>East Frisco, TX</a>
+                <a href='https://www.google.com/maps/search/?api=1&query=Theramax%20Physical%20Therapy%2C%207101%20S%20Custer%20Rd%20%23840%2C%20Frisco%2C%20TX%2075035' target='_blank' rel='noreferrer'>East Frisco, TX</a>
                 <a href='https://www.google.com/maps/search/?api=1&query=Theramax%20Physical%20Therapy%2C%208680%20Main%20St%20Suite%203W%2C%20Frisco%2C%20TX%2075033' target='_blank' rel='noreferrer'>West Frisco, TX</a>
               </address>
             </section>
